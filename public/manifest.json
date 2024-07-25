@@ -1,7 +1,7 @@
 {
     "theme_color": "#e3eefa",
     "background_color": "#e3eefa",
-    "display": "fullscreen",
+    "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Dumper",
