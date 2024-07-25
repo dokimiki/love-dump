@@ -29,13 +29,13 @@ export function addMessage(text: string, onSuccess?: () => void, onError?: (e: E
             createdAt: new Date(),
         };
 
-        const putRequest = store.put(data);
+        const addRequest = store.add(data);
 
-        putRequest.onsuccess = () => {
+        addRequest.onsuccess = () => {
             onSuccess();
         };
 
-        putRequest.onerror = (e) => {
+        addRequest.onerror = (e) => {
             onError(e);
         };
         db.close();
@@ -43,6 +43,24 @@ export function addMessage(text: string, onSuccess?: () => void, onError?: (e: E
 
     request.onerror = (e) => {
         onError(e);
+    };
+}
+
+export function getMessages(onGetMessages: (messages: Message[]) => void) {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+    request.onsuccess = (e) => {
+        const db = request.result;
+        const transaction = db.transaction(DB_STORE_NAME, "readonly");
+        const store = transaction.objectStore(DB_STORE_NAME);
+
+        const getRequest = store.getAll();
+
+        getRequest.onsuccess = () => {
+            onGetMessages(structuredClone(getRequest.result));
+        };
+
+        db.close();
     };
 }
 

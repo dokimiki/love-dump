@@ -5,15 +5,23 @@ import { Icon } from "@iconify/react";
 import styled from "styled-components";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { addMessage } from "@/libs/db";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
     const [text, setText] = React.useState("");
+    const router = useRouter();
+
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (text.length <= 0) {
             setText("");
             enqueueSnackbar("メッセージを入力してください", { variant: "warning" });
+            return;
+        }
+
+        if (text === "dump") {
+            router.push("/dump");
             return;
         }
 

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
+
+import "./reset.scss";
 import "./globals.scss";
+import { Theme } from "@radix-ui/themes";
 
 const notoSansJP = Noto_Sans_JP({
     subsets: ["latin"],
@@ -19,7 +22,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="jp">
-            <body className={notoSansJP.className}>{children}</body>
+            <body className={notoSansJP.className}>
+                <Theme>{children}</Theme>
+            </body>
         </html>
     );
 }
