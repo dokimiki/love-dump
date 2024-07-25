@@ -22,6 +22,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="jp">
+            <head>
+                <link rel="manifest" href="/manifest.json" />
+                <link rel="apple-touch-icon" href="/icon.png"></link>
+                <meta name="theme-color" content="#e3eefa" />
+            </head>
             <body className={notoSansJP.className}>
                 <Theme>{children}</Theme>
             </body>
