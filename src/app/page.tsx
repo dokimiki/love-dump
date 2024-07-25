@@ -4,13 +4,27 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import styled from "styled-components";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { addMessage } from "@/libs/db";
 
 export default function Home() {
     const [text, setText] = React.useState("");
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(text);
-        enqueueSnackbar("保存しました！", { variant: "success" });
+
+        if (text.length <= 0) {
+            setText("");
+            enqueueSnackbar("メッセージを入力してください", { variant: "warning" });
+            return;
+        }
+
+        function dbOnErr(e: Event) {
+            enqueueSnackbar(`保存に失敗しました...(${{ e }})`, { variant: "error" });
+        }
+        function dbOnSuccess() {
+            enqueueSnackbar("保存しました！", { variant: "success" });
+        }
+
+        addMessage(text, dbOnSuccess, dbOnErr);
 
         setText("");
     }
@@ -95,7 +109,7 @@ const StyledIconButton = styled.button`
 function SendButton() {
     return (
         <StyledIconButton>
-            <Icon icon="mingcute:send-fill" style={{ fontSize: "2rem", color: "#fff" }} />
+            <Icon icon="ic:round-mail" style={{ fontSize: "2rem", color: "#fff" }} />
         </StyledIconButton>
     );
 }
